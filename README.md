@@ -58,20 +58,6 @@ Meals:
 
 ---
 
-## 🗂️ Data Storage
-
-Uses **local storage**:
-- **Room Database** or **SharedPreferences**
-- Stores data per date in this format:
-
-```kotlin
-{
-  date: "YYYY-MM-DD",
-  breakfastCount: Int,
-  lunchCount: Int,
-  snacksCount: Int,
-  dinnerCount: Int
-}
 No cloud sync
 
 No internet required
@@ -89,25 +75,8 @@ Edit
 [ – ] [ 3 ] [ + ]
 [Start Stopwatch] 00:00
 -----------------------------
-📲 Platform & Version
-Target SDK: 24+
 
-Minimum SDK: 21
-
-Language: Kotlin (preferred), Java optional
-
-Layout: XML (not Jetpack Compose)
-
-Architecture: MVVM (recommended)
-
-🧪 Testing Guidelines
-Test across multiple dates for accurate loading/saving
-
-Verify live updates when editing counts
-
-Ensure stopwatches work independently per meal
-
-🔐 Permissions & Privacy
+# 🔐 Permissions & Privacy
 No permissions required
 
 No internet usage
@@ -125,16 +94,5 @@ Google Drive backup
 
 Weekly kick insights
 
-📁 Project Structure (Suggested)
-bash
-Copy
-Edit
-📦com.example.fetalkickcounter
- ┣ 📂data         # Room DB or SharedPrefs logic
- ┣ 📂ui           # Activity and layout
- ┣ 📂viewmodel    # MVVM ViewModel logic
- ┣ 📂model        # Data class for kick counts
- ┣ 📜MainActivity.kt
- ┣ 📜res/layout/activity_main.xml
 🤝 Contributing
 Pull requests and suggestions are welcome! Please open an issue for major changes.

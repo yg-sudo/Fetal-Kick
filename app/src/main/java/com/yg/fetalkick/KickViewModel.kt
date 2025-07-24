@@ -4,196 +4,134 @@ import android.app.Application
 import androidx.lifecycle.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
+import kotlinx.coroutines.isActive
 
 class KickViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository = KickRepository(application)
-    private val dateFormatter = DateTimeFormatter.ISO_LOCAL_DATE
 
-    private val _selectedDate = MutableLiveData(LocalDate.now())
+    // Selected Date
+    private val _selectedDate = MutableLiveData<LocalDate>(LocalDate.now())
     val selectedDate: LiveData<LocalDate> = _selectedDate
-
-    private val _breakfastCount = MutableLiveData(0)
-    val breakfastCount: LiveData<Int> = _breakfastCount
-    private val _lunchCount = MutableLiveData(0)
-    val lunchCount: LiveData<Int> = _lunchCount
-    private val _snacksCount = MutableLiveData(0)
-    val snacksCount: LiveData<Int> = _snacksCount
-    private val _dinnerCount = MutableLiveData(0)
-    val dinnerCount: LiveData<Int> = _dinnerCount
-
-    // Stopwatch states (seconds)
-    private val _breakfastTimer = MutableLiveData(0)
-    val breakfastTimer: LiveData<Int> = _breakfastTimer
-    private val _lunchTimer = MutableLiveData(0)
-    val lunchTimer: LiveData<Int> = _lunchTimer
-    private val _snacksTimer = MutableLiveData(0)
-    val snacksTimer: LiveData<Int> = _snacksTimer
-    private val _dinnerTimer = MutableLiveData(0)
-    val dinnerTimer: LiveData<Int> = _dinnerTimer
-
-    // Stopwatch running flags
-    private val _breakfastRunning = MutableLiveData(false)
-    val breakfastRunning: LiveData<Boolean> = _breakfastRunning
-    private val _lunchRunning = MutableLiveData(false)
-    val lunchRunning: LiveData<Boolean> = _lunchRunning
-    private val _snacksRunning = MutableLiveData(false)
-    val snacksRunning: LiveData<Boolean> = _snacksRunning
-    private val _dinnerRunning = MutableLiveData(false)
-    val dinnerRunning: LiveData<Boolean> = _dinnerRunning
-
-    private var breakfastJob: Job? = null
-    private var lunchJob: Job? = null
-    private var snacksJob: Job? = null
-    private var dinnerJob: Job? = null
-
-    init {
-        loadEntryForDate(_selectedDate.value!!)
-    }
 
     fun selectDate(date: LocalDate) {
         _selectedDate.value = date
-        loadEntryForDate(date)
+        // TODO: Here you would also load the kick counts for the newly selected date
     }
 
-    private fun loadEntryForDate(date: LocalDate) {
-        viewModelScope.launch {
-            val entry = repository.getEntryByDate(date.format(dateFormatter))
-            _breakfastCount.value = entry?.breakfastCount ?: 0
-            _lunchCount.value = entry?.lunchCount ?: 0
-            _snacksCount.value = entry?.snacksCount ?: 0
-            _dinnerCount.value = entry?.dinnerCount ?: 0
-            // Reset timers and running states
-            _breakfastTimer.value = 0
-            _lunchTimer.value = 0
-            _snacksTimer.value = 0
-            _dinnerTimer.value = 0
-            _breakfastRunning.value = false
-            _lunchRunning.value = false
-            _snacksRunning.value = false
-            _dinnerRunning.value = false
-            stopAllTimers()
-        }
-    }
+    // --- Breakfast ---
+    private val _breakfastCount = MutableStateFlow(0)
+    val breakfastCount: StateFlow<Int> = _breakfastCount.asStateFlow()
+    private val _breakfastTimerLD = MutableLiveData(0) // Seconds
+    val breakfastTimerLD: LiveData<Int> = _breakfastTimerLD
+    private val _breakfastRunning = MutableStateFlow(false)
+    val breakfastRunning: StateFlow<Boolean> = _breakfastRunning.asStateFlow()
+    private var breakfastJob: Job? = null
 
-    private fun saveEntry() {
-        val date = _selectedDate.value?.format(dateFormatter) ?: return
-        val entry = KickEntry(
-            date = date,
-            breakfastCount = _breakfastCount.value ?: 0,
-            lunchCount = _lunchCount.value ?: 0,
-            snacksCount = _snacksCount.value ?: 0,
-            dinnerCount = _dinnerCount.value ?: 0
-        )
-        viewModelScope.launch { repository.insertOrUpdate(entry) }
-    }
-
-    // Count operations
-    fun setBreakfastCount(count: Int) {
-        _breakfastCount.value = count.coerceAtLeast(0)
-        saveEntry()
-    }
-    fun setLunchCount(count: Int) {
-        _lunchCount.value = count.coerceAtLeast(0)
-        saveEntry()
-    }
-    fun setSnacksCount(count: Int) {
-        _snacksCount.value = count.coerceAtLeast(0)
-        saveEntry()
-    }
-    fun setDinnerCount(count: Int) {
-        _dinnerCount.value = count.coerceAtLeast(0)
-        saveEntry()
-    }
-    fun incrementBreakfast() = setBreakfastCount((_breakfastCount.value ?: 0) + 1)
-    fun decrementBreakfast() = setBreakfastCount((_breakfastCount.value ?: 0) - 1)
-    fun incrementLunch() = setLunchCount((_lunchCount.value ?: 0) + 1)
-    fun decrementLunch() = setLunchCount((_lunchCount.value ?: 0) - 1)
-    fun incrementSnacks() = setSnacksCount((_snacksCount.value ?: 0) + 1)
-    fun decrementSnacks() = setSnacksCount((_snacksCount.value ?: 0) - 1)
-    fun incrementDinner() = setDinnerCount((_dinnerCount.value ?: 0) + 1)
-    fun decrementDinner() = setDinnerCount((_dinnerCount.value ?: 0) - 1)
-
-    // Stopwatch logic
+    fun incrementBreakfast() { _breakfastCount.value++ }
+    fun decrementBreakfast() { if (_breakfastCount.value > 0) _breakfastCount.value-- }
+    fun setBreakfastCount(count: Int) { if (count >= 0) _breakfastCount.value = count }
     fun toggleBreakfastTimer() {
-        if (_breakfastRunning.value == true) stopBreakfastTimer() else startBreakfastTimer()
-    }
-    fun toggleLunchTimer() {
-        if (_lunchRunning.value == true) stopLunchTimer() else startLunchTimer()
-    }
-    fun toggleSnacksTimer() {
-        if (_snacksRunning.value == true) stopSnacksTimer() else startSnacksTimer()
-    }
-    fun toggleDinnerTimer() {
-        if (_dinnerRunning.value == true) stopDinnerTimer() else startDinnerTimer()
+        if (_breakfastRunning.value) {
+            _breakfastRunning.value = false
+            breakfastJob?.cancel()
+        } else {
+            _breakfastTimerLD.value = 0 // Reset timer
+            _breakfastRunning.value = true
+            breakfastJob = viewModelScope.launch {
+                while (isActive && _breakfastRunning.value) { // Use isActive from coroutine scope
+                    delay(1000)
+                    _breakfastTimerLD.postValue((_breakfastTimerLD.value ?: 0) + 1)
+                }
+            }
+        }
     }
 
-    private fun startBreakfastTimer() {
-        _breakfastRunning.value = true
-        breakfastJob = viewModelScope.launch {
-            while (_breakfastRunning.value == true) {
-                delay(1000)
-                _breakfastTimer.value = (_breakfastTimer.value ?: 0) + 1
+    // --- Lunch (Similar structure) ---
+    private val _lunchCount = MutableStateFlow(0)
+    val lunchCount: StateFlow<Int> = _lunchCount.asStateFlow()
+    private val _lunchTimerLD = MutableLiveData(0)
+    val lunchTimerLD: LiveData<Int> = _lunchTimerLD
+    private val _lunchRunning = MutableStateFlow(false)
+    val lunchRunning: StateFlow<Boolean> = _lunchRunning.asStateFlow()
+    private var lunchJob: Job? = null
+
+    fun incrementLunch() { _lunchCount.value++ }
+    fun decrementLunch() { if (_lunchCount.value > 0) _lunchCount.value-- }
+    fun setLunchCount(count: Int) { if (count >= 0) _lunchCount.value = count }
+    fun toggleLunchTimer() {
+        if (_lunchRunning.value) {
+            _lunchRunning.value = false
+            lunchJob?.cancel()
+        } else {
+            _lunchTimerLD.value = 0 // Reset timer
+            _lunchRunning.value = true
+            lunchJob = viewModelScope.launch {
+                while (isActive && _lunchRunning.value) {
+                    delay(1000)
+                    _lunchTimerLD.postValue((_lunchTimerLD.value ?: 0) + 1)
+                }
             }
         }
     }
-    private fun stopBreakfastTimer() {
-        _breakfastRunning.value = false
-        breakfastJob?.cancel()
-        saveEntry() // Save on stop
-    }
-    private fun startLunchTimer() {
-        _lunchRunning.value = true
-        lunchJob = viewModelScope.launch {
-            while (_lunchRunning.value == true) {
-                delay(1000)
-                _lunchTimer.value = (_lunchTimer.value ?: 0) + 1
+
+    // --- Snacks (Similar structure) ---
+    private val _snacksCount = MutableStateFlow(0)
+    val snacksCount: StateFlow<Int> = _snacksCount.asStateFlow()
+    private val _snacksTimerLD = MutableLiveData(0)
+    val snacksTimerLD: LiveData<Int> = _snacksTimerLD
+    private val _snacksRunning = MutableStateFlow(false)
+    val snacksRunning: StateFlow<Boolean> = _snacksRunning.asStateFlow()
+    private var snacksJob: Job? = null
+
+    fun incrementSnacks() { _snacksCount.value++ }
+    fun decrementSnacks() { if (_snacksCount.value > 0) _snacksCount.value-- }
+    fun setSnacksCount(count: Int) { if (count >= 0) _snacksCount.value = count }
+    fun toggleSnacksTimer() {
+        if (_snacksRunning.value) {
+            _snacksRunning.value = false
+            snacksJob?.cancel()
+        } else {
+            _snacksTimerLD.value = 0 // Reset timer
+            _snacksRunning.value = true
+            snacksJob = viewModelScope.launch {
+                while (isActive && _snacksRunning.value) {
+                    delay(1000)
+                    _snacksTimerLD.postValue((_snacksTimerLD.value ?: 0) + 1)
+                }
             }
         }
     }
-    private fun stopLunchTimer() {
-        _lunchRunning.value = false
-        lunchJob?.cancel()
-        saveEntry()
-    }
-    private fun startSnacksTimer() {
-        _snacksRunning.value = true
-        snacksJob = viewModelScope.launch {
-            while (_snacksRunning.value == true) {
-                delay(1000)
-                _snacksTimer.value = (_snacksTimer.value ?: 0) + 1
+
+    // --- Dinner (Similar structure) ---
+    private val _dinnerCount = MutableStateFlow(0)
+    val dinnerCount: StateFlow<Int> = _dinnerCount.asStateFlow()
+    private val _dinnerTimerLD = MutableLiveData(0)
+    val dinnerTimerLD: LiveData<Int> = _dinnerTimerLD
+    private val _dinnerRunning = MutableStateFlow(false)
+    val dinnerRunning: StateFlow<Boolean> = _dinnerRunning.asStateFlow()
+    private var dinnerJob: Job? = null
+
+    fun incrementDinner() { _dinnerCount.value++ }
+    fun decrementDinner() { if (_dinnerCount.value > 0) _dinnerCount.value-- }
+    fun setDinnerCount(count: Int) { if (count >= 0) _dinnerCount.value = count }
+    fun toggleDinnerTimer() {
+        if (_dinnerRunning.value) {
+            _dinnerRunning.value = false
+            dinnerJob?.cancel()
+        } else {
+            _dinnerTimerLD.value = 0 // Reset timer
+            _dinnerRunning.value = true
+            dinnerJob = viewModelScope.launch {
+                while (isActive && _dinnerRunning.value) {
+                    delay(1000)
+                    _dinnerTimerLD.postValue((_dinnerTimerLD.value ?: 0) + 1)
+                }
             }
         }
-    }
-    private fun stopSnacksTimer() {
-        _snacksRunning.value = false
-        snacksJob?.cancel()
-        saveEntry()
-    }
-    private fun startDinnerTimer() {
-        _dinnerRunning.value = true
-        dinnerJob = viewModelScope.launch {
-            while (_dinnerRunning.value == true) {
-                delay(1000)
-                _dinnerTimer.value = (_dinnerTimer.value ?: 0) + 1
-            }
-        }
-    }
-    private fun stopDinnerTimer() {
-        _dinnerRunning.value = false
-        dinnerJob?.cancel()
-        saveEntry()
-    }
-    private fun stopAllTimers() {
-        _breakfastRunning.value = false
-        _lunchRunning.value = false
-        _snacksRunning.value = false
-        _dinnerRunning.value = false
-        breakfastJob?.cancel()
-        lunchJob?.cancel()
-        snacksJob?.cancel()
-        dinnerJob?.cancel()
     }
 }
+        

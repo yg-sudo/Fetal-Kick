@@ -48,9 +48,11 @@
     <string name="dash">–</string>
     <string name="_0">0</string>
     <string name="plus">+</string>
-    <string name="start_stopwatch">Start Stopwatch</string>
+    <string name="start_stopwatch">Start Timer</string>
+    <string name="stop_timer">Stop Timer</string>
     <string name="_00_00">00:00</string>
     <string name="lunch">🥗 Lunch</string>
     <string name="snacks">🍪 Snacks</string>
     <string name="dinner">🍽️ Dinner</string>
+    <string name="reset">Reset</string>
 </resources>

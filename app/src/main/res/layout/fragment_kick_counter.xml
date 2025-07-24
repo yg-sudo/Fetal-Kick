@@ -28,10 +28,10 @@
             android:layout_height="wrap_content"
             app:cardCornerRadius="16dp"
             app:cardElevation="4dp"
-            app:strokeColor="@android:color/holo_blue_dark"
+            app:strokeColor="@color/meal_box_bg"
             app:strokeWidth="1dp"
             android:layout_marginBottom="12dp"
-            android:backgroundTint="@android:color/holo_blue_light">
+            android:backgroundTint="@color/md_theme_primary">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -46,7 +46,8 @@
                     android:text="@string/breakfast"
                     android:textStyle="bold"
                     android:textSize="18sp"
-                    android:layout_marginBottom="8dp" />
+                    android:layout_marginBottom="8dp"
+                    android:textColor="@color/white" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -60,7 +61,15 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:text="@string/dash"
-                        android:textColor="@color/white"/>
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        app:icon="@null"
+                        app:iconGravity="textStart"
+                        android:backgroundTint="@android:color/white"
+                        android:padding="0dp"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:textSize="20sp"/>
 
                     <EditText
                         android:id="@+id/breakfastCount"
@@ -72,14 +81,24 @@
                         android:text="@string/_0"
                         android:textSize="18sp"
                         android:layout_marginHorizontal="8dp"
-                        tools:ignore="LabelFor" />
+                        tools:ignore="LabelFor"
+                        android:textColor="@color/white"/>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/breakfastPlus"
                         style="@style/Widget.Material3.Button.OutlinedButton"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:text="@string/plus" />
+                        android:text="@string/plus"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        app:icon="@null"
+                        app:iconGravity="textStart"
+                        android:backgroundTint="@android:color/white"
+                        android:padding="0dp"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:textSize="20sp"/>
                 </LinearLayout>
 
                 <View
@@ -98,14 +117,17 @@
                         style="@style/Widget.Material3.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/start_stopwatch" />
+                        android:text="@string/start_stopwatch"
+                        android:backgroundTint="@color/white"
+                        android:textColor="@color/md_theme_primary"/>
                     <TextView
                         android:id="@+id/breakfastTimer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/_00_00"
+                        android:textColor="@color/white"
                         android:textSize="14sp"
-                        android:layout_marginStart="16dp" />
+                        android:layout_marginStart="16dp"/>
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -116,10 +138,10 @@
             android:layout_height="wrap_content"
             app:cardCornerRadius="16dp"
             app:cardElevation="4dp"
-            app:strokeColor="@android:color/holo_green_dark"
+            app:strokeColor="@color/meal_box_bg"
             app:strokeWidth="1dp"
             android:layout_marginBottom="12dp"
-            android:backgroundTint="@android:color/holo_green_light">
+            android:backgroundTint="@color/md_theme_primary">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -134,7 +156,8 @@
                     android:text="@string/lunch"
                     android:textStyle="bold"
                     android:textSize="18sp"
-                    android:layout_marginBottom="8dp" />
+                    android:layout_marginBottom="8dp"
+                    android:textColor="@color/white" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -147,7 +170,16 @@
                         style="@style/Widget.Material3.Button.OutlinedButton"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:text="@string/dash" />
+                        android:text="@string/dash"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        app:icon="@null"
+                        app:iconGravity="textStart"
+                        android:backgroundTint="@android:color/white"
+                        android:padding="0dp"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:textSize="20sp"/>
 
                     <EditText
                         android:id="@+id/lunchCount"
@@ -159,14 +191,24 @@
                         android:text="@string/_0"
                         android:textSize="18sp"
                         android:layout_marginHorizontal="8dp"
-                        tools:ignore="LabelFor" />
+                        tools:ignore="LabelFor"
+                        android:textColor="@color/white"/>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/lunchPlus"
                         style="@style/Widget.Material3.Button.OutlinedButton"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:text="@string/plus" />
+                        android:text="@string/plus"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        app:icon="@null"
+                        app:iconGravity="textStart"
+                        android:backgroundTint="@android:color/white"
+                        android:padding="0dp"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:textSize="20sp"/>
                 </LinearLayout>
 
                 <View
@@ -185,14 +227,17 @@
                         style="@style/Widget.Material3.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/start_stopwatch" />
+                        android:text="@string/start_stopwatch"
+                        android:backgroundTint="@color/white"
+                        android:textColor="@color/md_theme_primary"/>
                     <TextView
                         android:id="@+id/lunchTimer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/_00_00"
+                        android:textColor="@color/white"
                         android:textSize="14sp"
-                        android:layout_marginStart="16dp" />
+                        android:layout_marginStart="16dp"/>
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -203,10 +248,10 @@
             android:layout_height="wrap_content"
             app:cardCornerRadius="16dp"
             app:cardElevation="4dp"
-            app:strokeColor="@android:color/holo_orange_dark"
+            app:strokeColor="@color/meal_box_bg"
             app:strokeWidth="1dp"
             android:layout_marginBottom="12dp"
-            android:backgroundTint="@android:color/holo_orange_light">
+            android:backgroundTint="@color/md_theme_primary">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -218,34 +263,45 @@
                     android:id="@+id/snacksLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
                     android:text="@string/snacks"
-                    android:textStyle="bold"
+                    android:textColor="@color/white"
                     android:textSize="18sp"
-                    android:layout_marginBottom="8dp" />
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/snacksMinus"
                         style="@style/Widget.Material3.Button.OutlinedButton"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:text="@string/dash" />
+                        android:backgroundTint="@android:color/white"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:padding="0dp"
+                        android:text="@string/dash"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:icon="@null"
+                        app:iconGravity="textStart" />
 
                     <EditText
                         android:id="@+id/snacksCount"
                         android:layout_width="60dp"
                         android:layout_height="40dp"
+                        android:layout_marginHorizontal="8dp"
                         android:gravity="center"
                         android:importantForAutofill="no"
                         android:inputType="number"
                         android:text="@string/_0"
+                        android:textColor="@color/white"
                         android:textSize="18sp"
-                        android:layout_marginHorizontal="8dp"
                         tools:ignore="LabelFor" />
 
                     <com.google.android.material.button.MaterialButton
@@ -253,33 +309,47 @@
                         style="@style/Widget.Material3.Button.OutlinedButton"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:text="@string/plus" />
+                        android:backgroundTint="@android:color/white"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:padding="0dp"
+                        android:text="@string/plus"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:icon="@null"
+                        app:iconGravity="textStart" />
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@android:color/darker_gray"
-                    android:layout_marginVertical="8dp" />
+                    android:layout_marginVertical="8dp"
+                    android:background="@android:color/darker_gray" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/snacksStopwatch"
                         style="@style/Widget.Material3.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/start_stopwatch" />
+                        android:backgroundTint="@color/white"
+                        android:text="@string/start_stopwatch"
+                        android:textColor="@color/md_theme_primary"/>
+
                     <TextView
                         android:id="@+id/snacksTimer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
                         android:text="@string/_00_00"
-                        android:textSize="14sp"
-                        android:layout_marginStart="16dp" />
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -290,10 +360,10 @@
             android:layout_height="wrap_content"
             app:cardCornerRadius="16dp"
             app:cardElevation="4dp"
-            app:strokeColor="#6750A4"
+            app:strokeColor="@color/meal_box_bg"
             app:strokeWidth="1dp"
             android:layout_marginBottom="12dp"
-            android:backgroundTint="#6750A4">
+            android:backgroundTint="@color/md_theme_primary">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -308,7 +378,8 @@
                     android:text="@string/dinner"
                     android:textStyle="bold"
                     android:textSize="18sp"
-                    android:layout_marginBottom="8dp" />
+                    android:layout_marginBottom="8dp"
+                    android:textColor="@color/white" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -321,7 +392,16 @@
                         style="@style/Widget.Material3.Button.OutlinedButton"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:text="@string/dash" />
+                        android:text="@string/dash"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        app:icon="@null"
+                        app:iconGravity="textStart"
+                        android:backgroundTint="@android:color/white"
+                        android:padding="0dp"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:textSize="20sp"/>
 
                     <EditText
                         android:id="@+id/dinnerCount"
@@ -333,14 +413,24 @@
                         android:text="@string/_0"
                         android:textSize="18sp"
                         android:layout_marginHorizontal="8dp"
-                        tools:ignore="LabelFor" />
+                        tools:ignore="LabelFor"
+                        android:textColor="@color/white"/>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/dinnerPlus"
                         style="@style/Widget.Material3.Button.OutlinedButton"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:text="@string/plus" />
+                        android:text="@string/plus"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        app:icon="@null"
+                        app:iconGravity="textStart"
+                        android:backgroundTint="@android:color/white"
+                        android:padding="0dp"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:textSize="20sp"/>
                 </LinearLayout>
 
                 <View
@@ -359,14 +449,17 @@
                         style="@style/Widget.Material3.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/start_stopwatch" />
+                        android:text="@string/start_stopwatch"
+                        android:backgroundTint="@color/white"
+                        android:textColor="@color/md_theme_primary"/>
                     <TextView
                         android:id="@+id/dinnerTimer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/_00_00"
+                        android:textColor="@color/white"
                         android:textSize="14sp"
-                        android:layout_marginStart="16dp" />
+                        android:layout_marginStart="16dp"/>
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

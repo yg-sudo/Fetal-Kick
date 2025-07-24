@@ -62,19 +62,10 @@ No cloud sync
 
 No internet required
 
-🎨 UI/UX Design
+# 🎨 UI/UX Design
 Clean, intuitive interface using Material Design
 
 Each meal section visually separated using subtle backgrounds or dividers
-
-Example Meal Section:
-css
-Copy
-Edit
-[🍳 Breakfast]
-[ – ] [ 3 ] [ + ]
-[Start Stopwatch] 00:00
------------------------------
 
 # 🔐 Permissions & Privacy
 No permissions required

@@ -85,5 +85,5 @@ Google Drive backup
 
 Weekly kick insights
 
-🤝 Contributing
+# 🤝 Contributing
 Pull requests and suggestions are welcome! Please open an issue for major changes.
